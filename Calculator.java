@@ -74,6 +74,8 @@ public class Calculator extends JFrame {
              * - 전체 초기화
              *
              * @param btnStr 클릭한 버튼의 레이블
+             *
+             * @see < a href="https://velog.io/@merci/JAVA-GUI%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EA%B0%84%EB%8B%A8%ED%95%9C-%EA%B3%84%EC%82%B0%EA%B8%B0-%EA%B5%AC%ED%98%84">참고한 블로그</a>
              */
             btn[i].addActionListener(e -> {
                 String btnStr = e.getActionCommand();
@@ -176,8 +178,10 @@ public class Calculator extends JFrame {
              * -2~5열
              *  - 1~3행 : 숫자 버튼(하얀색)
              *  - 4~5행 : 연산자 버튼(연한 노란색)
+             *
+             * @see ChatGPT 답변 (2024년 10월 31일)
              */
-            if (i >= 0 && i <= 4) { // 이거 지피티한테 물어봄
+            if (i >= 0 && i <= 4) {
                 btn[i].setBackground(new Color(255,217,77));
             }
             else if (i % 5 == 3 || i % 5 == 4)
@@ -193,8 +197,11 @@ public class Calculator extends JFrame {
 
     /**
      * 툴팁 내용 지정
+     *
      * @param label 버튼 레이블
      * @return 레이블 별 툴팁 내용
+     *
+     * @see ChatGPT 답변 (2024년 11월 1일)
      */
     private String getTooltip(String label) {
         switch (label) {
