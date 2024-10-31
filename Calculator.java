@@ -1,31 +1,37 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 /**
- *계산기 프로그램 제작을 위한 클래스입니다.
+ *계산기 기능을 제공하는 Calculator 클래스입니다.
  *
+ * @author Jeon Soomin
  * @version 1.0
  * @since 1.0
- *
- * @created
  */
 
 public class Calculator extends JFrame {
 
+    /** 입력 받은 값을 표시하는 텍스트필드 */
     JTextField display;
+    /** 계산기 버튼을 저장하는 배열 */
     JButton[] btn;
+    /** 각 버튼에 넣을 키 값을 저장하는 배열 */
     String[] key = {"←", "CE", "C", "", "=",
             "7", "8", "9", "%", "÷",
             "4", "5", "6", "x²", "×",
             "1", "2", "3", "√x", "-",
             "+/-", "0", ".", "1/x", "+"};
 
-    private double num;
+    /**
+     * @param operator 사용자가 선택한 연산자를 저장하는 변수
+     * @param result 계산 결과를 저장하는 변수
+     */
     private String operator;
-    // private boolean isOperatorPressed = false;
     private double result;
 
+    /** 기본 생성자
+     * 외형 및 기능 초기화와 구성
+     */
     public Calculator() {
         ImageIcon icon = new ImageIcon("images/icon.png");
         setIconImage(icon.getImage());
@@ -50,13 +56,25 @@ public class Calculator extends JFrame {
         btnPanel.setLayout(new GridLayout(5,5, 1, 1));
 
         btn = new JButton[key.length];
-        for (int i = 0; i < btn.length; i++) { // 안 쓰는 버튼을 아예 지우는 방법이 없나? 일단 컨티뉴 이거 안 됨
+        for (int i = 0; i < btn.length; i++) {
             btn[i] = new JButton(key[i]);
             btn[i].setBackground(Color.white);
             btn[i].setFont(new Font("SansSerif", Font.BOLD, 15));
 
+            /** 마우스 커서 올릴 때 툴팁 표기 */
             btn[i].setToolTipText(getTooltip(key[i]));
 
+            /**
+             * 버튼 클릭 이벤트 리스너
+             * - 일반 숫자 입력
+             * - 소수점 찍기, 백스페이스(하나 지우기), 부호 변경
+             * - 연산자 입력, 제곱, 역수, 제곱근 계산
+             * - 계산 결과 출력
+             * - 초기화(텍스트 필드)
+             * - 전체 초기화
+             *
+             * @param btnStr 클릭한 버튼의 레이블
+             */
             btn[i].addActionListener(e -> {
                 String btnStr = e.getActionCommand();
                 if (btnStr.equals("0") || btnStr.equals("1") || btnStr.equals("2") ||
@@ -82,7 +100,7 @@ public class Calculator extends JFrame {
                 if (btnStr.equals("+") || btnStr.equals("-") || btnStr.equals("×") ||
                         btnStr.equals("÷") || btnStr.equals("x²") || btnStr.equals("%") ||
                         btnStr.equals("1/x") || btnStr.equals("√x")) {
-                    operator = btnStr;		// 연산 누르면 연산자 저장 + 입력된 숫자 저장 
+                    operator = btnStr;
                     switch (operator) {
                         case "+":
                             result = Double.parseDouble(display.getText());
@@ -118,7 +136,7 @@ public class Calculator extends JFrame {
                             break;
                     }
                 }
-                // '=' 을 누르면 기억하고 있는 연산과 숫자로 결과 계산
+
                 if (btnStr.equals("=")) {
                     switch (operator) {
                         case "+":
@@ -152,6 +170,13 @@ public class Calculator extends JFrame {
                 }
             });
 
+            /**
+             * 버튼 색상 지정
+             * - 1열 : 연산 초기화 및 계산 버튼(진한 노란색)
+             * -2~5열
+             *  - 1~3행 : 숫자 버튼(하얀색)
+             *  - 4~5행 : 연산자 버튼(연한 노란색)
+             */
             if (i >= 0 && i <= 4) { // 이거 지피티한테 물어봄
                 btn[i].setBackground(new Color(255,217,77));
             }
@@ -161,12 +186,16 @@ public class Calculator extends JFrame {
             btnPanel.add(btn[i]);
         }
 
-        btnPanel.setSize(200,200);
         add(btnPanel, BorderLayout.CENTER);
 
         setVisible(true);
     }
 
+    /**
+     * 툴팁 내용 지정
+     * @param label 버튼 레이블
+     * @return 레이블 별 툴팁 내용
+     */
     private String getTooltip(String label) {
         switch (label) {
             case "←": return "한 글자 삭제";
@@ -186,7 +215,13 @@ public class Calculator extends JFrame {
             default: return "숫자";
         }
     }
-    
+
+    /** 메인 메서드
+     * 계산기 프로그램 실행
+     *
+     * @param args 실행 인수
+     */
+
     public static void main(String[] args) {
         new Calculator();
     }
